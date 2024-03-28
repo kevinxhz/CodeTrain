@@ -1,0 +1,44 @@
+#by Lin Yang
+def trap(height):
+    if not height:
+        return 0
+
+    left = 0
+    right = len(height) - 1
+    left_max = height[left]
+    right_max = height[right]
+    total = 0
+    drops = [0] * len(height) 
+      
+    while left < right:
+        if left_max < right_max:
+            left += 1
+            left_max = max(left_max, height[left])
+            total += left_max - height[left]
+            drops[left] = left_max       
+        else:
+            right -= 1
+            right_max = max(right_max, height[right])
+            total += right_max - height[right]
+            drops[right] = right_max       
+            
+    return total, drops
+
+#Test
+height = [0,4,0,2,5,0,1,3,2,1,2,1]
+total, drops = trap(height)
+print("Rain water trapped:", total)
+
+#Draw a illustration in which bar is 'I', rain drop is '*'
+n = max(height)
+while n > 0:
+    str = ''
+    for i in range(len(height)):
+        if height[i] >= n:
+            str += 'I' 
+        elif drops[i] >= n:
+            str += '*' 
+        else:
+            str += ' '
+    print(str) 
+    n -= 1
